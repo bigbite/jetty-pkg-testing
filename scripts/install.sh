@@ -1,12 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Set some colors.
+# Set some color
 RED=$(tput setaf 1);
 GREEN=$(tput setaf 2);
 YELLOW=$(tput setaf 3);
 BLUE=$(tput setaf 4);
 BOLD=$(tput bold);
 RESET=$(tput sgr0);
+NEWLINE=$'\n'
 
 # Set some variables.
 PLATFORM=$(/usr/bin/uname -m)
@@ -54,7 +55,7 @@ fi
 # Set the download URL.
 DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/$BINARY"
 
-echo "\n${BOLD}${BLUE}Downloading jetty version: $VERSION ...${RESET}"
+echo "${NEWLINE}${BOLD}${BLUE}Downloading jetty version: $VERSION ...${RESET}"
 echo "${BLUE}==> $DOWNLOAD_URL${RESET}\n"
 
 # Download.
@@ -64,7 +65,7 @@ curl -OL $DOWNLOAD_URL -f
 RETURN_CODE=$?
 if [ $RETURN_CODE -ne 0 ];
 then
-  echo "\n${BOLD}${RED}ERROR: Failed to download jetty version: $VERSION${RESET}"
+  echo "${NEWLINE}${BOLD}${RED}ERROR: Failed to download jetty version: $VERSION${RESET}"
   echo "${RED}Please make sure the version exists.${RESET}"
   exit 1
 fi
@@ -73,7 +74,7 @@ fi
 chmod u+x $BINARY
 
 # Start the install.
-echo "\n${BLUE}${BOLD}Installing to $INSTALL_PATH ...${RESET}"
+echo "${NEWLINE}${BLUE}${BOLD}Installing to $INSTALL_PATH ...${RESET}"
 
 # Check if install path exists, create it if not.
 if [ ! -d $INSTALL_PATH ]
@@ -85,7 +86,7 @@ fi
 RETURN_CODE=$?
 if [ $RETURN_CODE -ne 0 ]
 then
-  echo "\n${BOLD}${RED}ERROR: Failed to create $INSTALL_PATH${RESET}"
+  echo "${NEWLINE}${BOLD}${RED}ERROR: Failed to create $INSTALL_PATH${RESET}"
   exit 1
 fi
 
@@ -96,8 +97,8 @@ mv -f ${BINARY} ${INSTALL_PATH}jettyy || sudo !!
 RETURN_CODE=$?
 if [ $RETURN_CODE -ne 0 ]
 then
-  echo "\n${BOLD}${RED}ERROR: Failed to install to $INSTALL_PATH${RESET}"
+  echo "${NEWLINE}${BOLD}${RED}ERROR: Failed to install to $INSTALL_PATH${RESET}"
   exit 1
 fi
 
-echo "\n${GREEN}${BOLD}Successfully installed to $INSTALL_PATH${RESET}"
+echo "${NEWLINE}${GREEN}${BOLD}Successfully installed to $INSTALL_PATH${RESET}"
