@@ -79,7 +79,7 @@ echo "${NEWLINE}${BLUE}${BOLD}Installing to ${INSTALL_PATH} ...${RESET}"
 # Check if install path exists, create it if not.
 if [ ! -d ${INSTALL_PATH} ]
 then
-  mkdir -p ${INSTALL_PATH} || sudo !!
+  mkdir -p ${INSTALL_PATH} || sudo mkdir -p ${INSTALL_PATH}
 fi
 
 # If failed to create install path, display error message and exit.
@@ -91,7 +91,12 @@ then
 fi
 
 # Move the binary to the install path.
-mv -f ${BINARY} ${INSTALL_PATH}jettyy || sudo !!
+{
+  mv -f ${BINARY} ${INSTALL_PATH}jettyy
+} || {
+  echo "Retrying with sudo..."
+  sudo mv -f ${BINARY} ${INSTALL_PATH}jettyy
+}
 
 # If failed to install, display error message and exit.
 RETURN_CODE=$?
